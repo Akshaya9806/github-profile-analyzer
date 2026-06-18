@@ -1,305 +1,211 @@
-# GitHub Profile Analyzer API
+# GitHub Profile Analyzer
 
-A RESTful backend service built with **Node.js**, **Express.js**, **MySQL**, and the **GitHub Public API**. The application analyzes GitHub user profiles, extracts useful insights, stores them in a MySQL database, and provides APIs to retrieve the analyzed data.
+A full-stack web application that analyzes GitHub profiles and provides meaningful developer insights through interactive dashboards, repository analytics, language distribution visualizations, and developer ranking metrics.
 
----
+## 🚀 Overview
 
-## Features
+GitHub Profile Analyzer allows users to search any public GitHub profile and instantly view detailed statistics, repository insights, language usage trends, developer rankings, and popularity metrics.
 
-### Analyze GitHub Profiles
-- Fetch public GitHub profile information using a username.
-- Retrieve repository details using the GitHub API.
-- Calculate useful insights such as:
-  - Public Repositories Count
-  - Followers Count
-  - Following Count
-  - Account Age (in days)
-  - Total Stars Received
-  - Average Stars per Repository
-  - Most Used Programming Language
-
-### Store Analysis Results
-- Save analyzed profile data into a MySQL database.
-- Prevent duplicate entries using the GitHub username.
-
-### Retrieve Stored Data
-- Get a list of all analyzed GitHub profiles.
-- Get detailed information for a specific GitHub profile.
+The application combines real-time GitHub API data with persistent MySQL storage and interactive visualizations to deliver a modern developer analytics dashboard.
 
 ---
 
-## Tech Stack
+## ✨ Features
 
-| Technology | Purpose |
-|------------|----------|
-| Node.js | Runtime Environment |
-| Express.js | Backend Framework |
-| MySQL | Database |
-| GitHub REST API | Profile & Repository Data |
-| Axios | API Requests |
-| dotenv | Environment Variables |
-| cors | Cross-Origin Resource Sharing |
+### 👤 Profile Analysis
+- Search and analyze any public GitHub profile
+- Display avatar, bio, followers, following, and repository information
+- Calculate account age and activity metrics
+- Direct GitHub profile access
+
+### 🏆 Developer Insights
+- Developer Score calculation
+- Developer Rank classification
+  - Beginner
+  - Intermediate
+  - Advanced
+  - Expert
+- Total Stars analysis
+- Average Stars per repository
+
+### 📊 Repository Analytics
+- Top repositories ranked by stars
+- Repository statistics
+  - Stars
+  - Forks
+  - Primary Language
+- Interactive repository visualization
+
+### 📈 Language Analytics
+- Most used programming language detection
+- Language distribution pie chart
+- Technology usage insights
+
+### 🔥 Dashboard Features
+- Trending profiles tracking
+- Recent searches history
+- Loading animations
+- Error handling
+- Responsive modern UI
+
+### 🗄️ Data Persistence
+- Stores analyzed profiles in MySQL
+- Tracks profile search frequency
+- Maintains profile analytics history
 
 ---
 
-## Project Structure
+## 🛠️ Tech Stack
+
+### Frontend
+- React.js
+- Vite
+- Axios
+- Recharts
+- CSS3
+
+### Backend
+- Node.js
+- Express.js
+- REST APIs
+
+### Database
+- MySQL
+
+### External APIs
+- GitHub REST API
+
+### Deployment
+- Render (Backend)
+- Vercel (Frontend)
+
+---
+
+## 📂 Project Structure
 
 ```text
 github-profile-analyzer
 │
-├── config
-│   └── db.js
+├── backend
+│   ├── config
+│   ├── controllers
+│   ├── routes
+│   ├── services
+│   ├── server.js
+│   ├── package.json
+│   └── .env
 │
-├── controllers
-│   └── githubController.js
+├── frontend
+│   ├── public
+│   ├── src
+│   │   ├── components
+│   │   ├── services
+│   │   └── App.jsx
+│   ├── package.json
+│   └── vite.config.js
 │
-├── routes
-│   └── githubRoutes.js
-│
-├── services
-│   └── githubService.js
-│
-├── .env
-├── server.js
-├── package.json
 └── README.md
 ```
 
 ---
 
-## Database Schema
+## 📊 Dashboard Metrics
 
-```sql
-CREATE DATABASE github_analyzer;
+The application provides:
 
-USE github_analyzer;
+- Followers
+- Following
+- Public Repositories
+- Total Stars
+- Average Stars
+- Account Age
+- Developer Score
+- Developer Rank
+- Trending Profiles
+- Top Repositories
+- Language Distribution
 
-CREATE TABLE github_profiles (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE,
-    name VARCHAR(255),
-    bio TEXT,
-    public_repos INT,
-    followers INT,
-    following INT,
-    account_age_days INT,
-    total_stars INT,
-    avg_stars DECIMAL(10,2),
-    top_language VARCHAR(100),
-    profile_url VARCHAR(255),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+---
+
+## 📡 API Endpoints
+
+### Analyze GitHub Profile
+
+```http
+POST /api/github/analyze/:username
+```
+
+### Get All Stored Profiles
+
+```http
+GET /api/github/profiles
+```
+
+### Get Single Profile
+
+```http
+GET /api/github/profile/:username
+```
+
+### Get Trending Profiles
+
+```http
+GET /api/github/trending
 ```
 
 ---
 
-## Installation & Setup
+## ⚙️ Installation
 
-### 1. Clone Repository
+### Clone Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Akshaya9806/github-profile-analyzer.git
 cd github-profile-analyzer
 ```
 
-### 2. Install Dependencies
+### Backend Setup
 
 ```bash
+cd backend
 npm install
 ```
 
-### 3. Configure Environment Variables
-
-Create a `.env` file in the project root.
+Create a `.env` file:
 
 ```env
 PORT=5000
 
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=Root@123
+DB_PASSWORD=your_password
 DB_NAME=github_analyzer
 ```
 
-### 4. Start MySQL Server
-
-Make sure MySQL Server is running and the database is created.
-
-### 5. Run Application
-
-Development Mode:
+Run Backend:
 
 ```bash
 npm run dev
 ```
 
-Production Mode:
+---
+
+### Frontend Setup
 
 ```bash
-npm start
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend runs at:
+
+```text
+http://localhost:5173
 ```
 
 ---
 
-## API Endpoints
+## 📄 License
 
-### 1. Analyze GitHub Profile
-
-Fetches data from GitHub and stores insights in MySQL.
-
-**Endpoint**
-
-```http
-POST /api/github/analyze/:username
-```
-
-**Example**
-
-```http
-POST /api/github/analyze/octocat
-```
-
-**Response**
-
-```json
-{
-  "message": "Profile analyzed successfully",
-  "data": {
-    "username": "octocat",
-    "followers": 22927,
-    "publicRepos": 8,
-    "topLanguage": "JavaScript"
-  }
-}
-```
-
----
-
-### 2. Get All Analyzed Profiles
-
-**Endpoint**
-
-```http
-GET /api/github/profiles
-```
-
-**Response**
-
-```json
-[
-  {
-    "id": 1,
-    "username": "octocat",
-    "followers": 22927,
-    "public_repos": 8
-  }
-]
-```
-
----
-
-### 3. Get Single Profile
-
-**Endpoint**
-
-```http
-GET /api/github/profile/:username
-```
-
-**Example**
-
-```http
-GET /api/github/profile/octocat
-```
-
-**Response**
-
-```json
-{
-  "id": 1,
-  "username": "octocat",
-  "followers": 22927,
-  "public_repos": 8,
-  "top_language": "JavaScript"
-}
-```
-
----
-
-## GitHub APIs Used
-
-### User Profile API
-
-```http
-https://api.github.com/users/{username}
-```
-
-Example:
-
-```http
-https://api.github.com/users/octocat
-```
-
-Used for:
-
-- Username
-- Name
-- Bio
-- Followers
-- Following
-- Public Repositories
-- Account Creation Date
-
----
-
-### User Repositories API
-
-```http
-https://api.github.com/users/{username}/repos
-```
-
-Used for:
-
-- Total Stars
-- Average Stars
-- Top Programming Language
-
----
-
-## Sample Insights Stored
-
-| Insight | Description |
-|----------|-------------|
-| Public Repositories | Number of public repositories |
-| Followers | Number of followers |
-| Following | Number of following users |
-| Account Age | GitHub account age in days |
-| Total Stars | Sum of stars across repositories |
-| Average Stars | Average stars per repository |
-| Top Language | Most frequently used language |
-
----
-
-## Testing
-
-The APIs can be tested using:
-
-- Postman
-- Thunder Client
-- Browser (GET Endpoints)
-
-### Sample Requests
-
-```http
-POST http://localhost:5000/api/github/analyze/octocat
-```
-
-```http
-GET http://localhost:5000/api/github/profiles
-```
-
-```http
-GET http://localhost:5000/api/github/profile/octocat
-```
-
----
+This project is licensed under the MIT License.
