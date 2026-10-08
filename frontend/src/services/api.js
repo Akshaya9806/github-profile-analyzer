@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "http://localhost:5000/api/github",
+  baseURL: "https://github-profile-analyzer-1-6gk2.onrender.com/api/github",
 });
